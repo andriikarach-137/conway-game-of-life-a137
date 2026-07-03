@@ -9,9 +9,6 @@
 
 // ***************************************************************************
 
-Pair tiles_alive_state[];  
-Pair tiles_neear_alive_state[];
-
 GameState game_state;
 
 int main(int argc, char **argv) {
@@ -51,7 +48,7 @@ int main(int argc, char **argv) {
 		initial_alive_cells[i] = new; 
 	} 
 
-	// Gamestate is defined globally, so everything is already initialised to 0 
+	// Gamestate is defined globally, so everything is already initialised
 }
 
 // ***************************************************************************
