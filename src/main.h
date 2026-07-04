@@ -3,12 +3,12 @@
 #include <stdbool.h> 
 
 // <=========================================================================>
-// Interface of main module
+// Interface of main module 
 
 // ***************************************************************************
-// Global Definitions
-#define X_SIZE 64           // The width of the gameboard 
-#define Y_SIZE 64           // The height of the gameboard 
+// Global definitions and macros 
+#define MIN_DIM 4 
+#define MAX_DIM 32 
 
 // ***************************************************************************
 // Structures and Types
@@ -37,14 +37,15 @@ typedef enum {DEAD, ALIVE} TileState;
  */
 typedef struct GameState {
     int generation; 
-    TileState curr_map[Y_SIZE][X_SIZE];
-    TileState next_map[Y_SIZE][X_SIZE];
+    TileState *curr_map;
+    TileState *next_map;
 } GameState; 
 
 // ***************************************************************************
 // Global Variables
 
 extern GameState game_state;        // This variable keeps track of the state of the game, generation and tiles state
+extern int dim;                     // This variable tells the dimension of the gameboard 
 
 // ***************************************************************************
 // Public functions of the main module 
@@ -71,6 +72,11 @@ extern void update_state();
  */
 extern void print_state();
 
+/**
+ * This function provides a natural delay between game state generations 
+ */
+extern void delay();
+
 // <=========================================================================>
 // Internals of main module
 
@@ -78,6 +84,8 @@ extern void print_state();
 // Private functions of main module
 
 /**
+ * This function consumes a character and returns it, while modifying the string by advancing it
+ * 
  * <char **>                Address of the string which will be advanced when character gets consumed 
  * 
  * <char>                   Consumed character 
@@ -85,6 +93,8 @@ extern void print_state();
 extern char consume_char(char **); 
 
 /**
+ * This function returns the number of alive cells in the neighbourhood of some cell 
+ * 
  * <Pair>                   Coordinates of the cell around which we are checking 
  * 
  * <int>                    Number of alive cells in the neighbourhood       

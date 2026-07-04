@@ -10,31 +10,36 @@
 // ***************************************************************************
 
 GameState game_state;
+int dim; 
 
 int main(int argc, char **argv) {
 	
 	// First, we check if there are exactly two command-line arguments
 	if (argc - 1 < 2) {
-		printf("Invalid usage.\nUse /gol <dim> <pos>\n"); 
+		printf("Invalid usage.\nUse ./gol <dim> <pos>\n"); 
 		exit(EXIT_FAILURE); 
 	}
 
 	// Correct number of arguments, convert <dim> to integer
 	char *end_ptr; 
-	int dim = strtol(argv[1], &end_ptr, 10); 
+	dim = strtol(argv[1], &end_ptr, 10); 
 	if (*end_ptr != '\0' || end_ptr == argv[1]) {
 		printf("Invalid usage.\n<dim> must be an integer.\n");
 		exit(EXIT_FAILURE); 
 	}
 
 	// <dim> is indeed a number, check if it is in the range
-	if (dim < 16 || dim > 255) {
+	if (dim < MIN_DIM || dim > MAX_DIM) {
 		printf("Invalid usage.\n<dim> is not in valid range.\n"); 
 		exit(EXIT_FAILURE); 
 	} 
 
 	// <dim> has been processed, move on to processing <pos>
-	Pair *initial_alive_cells = malloc(sizeof(Pair) * argc - 2);
+
+	// First initialise the game state 
+	game_state.curr_map = malloc(sizeof(TileState) * dim * dim); 
+	game_state.next_map = malloc(sizeof(TileState) * dim * dim); 
+
 	for (int i = 0; i < argc - 2; i++) {
 		int x; 
 		int y; 
@@ -45,12 +50,15 @@ int main(int argc, char **argv) {
 		}
 
 		// Update current state array in game state structure 
-		game_state.curr_map[y][x] = ALIVE; 
+		game_state.curr_map[y * dim + x] = ALIVE; 
 	} 
 
 	// Print the game state 
 	print_state();
-	
+
+	// Delay
+	delay();
+
 	// Update the game state 
 	update_state(); 
 }
