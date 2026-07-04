@@ -43,4 +43,12 @@ bool read_coordinate(int *x, int *y, char *str) {
     return true; 
 }
 
+void update_state() {
+    return; 
+}
+
+void print_state() {
+    return; 
+}
+
 // ***************************************************************************

@@ -30,17 +30,6 @@ typedef struct Pair {
 typedef enum {DEAD, ALIVE} TileState; 
 
 /**
- * This structure defines a cell, with a coordinate and state 
- * 
- * <Pair>                   Coordinates of the cell in the grid
- * <TileState>              State of the cell in the game (DEAD or ALIVE)
- */
-typedef struct Cell {
-    Pair coordinate; 
-    TileState state; 
-} Cell; 
-
-/**
  * <int>                    Generation count (first generation starts at 0)
  * <TileState[int][int]>    Current map of all tiles in the game, whose state can be either DEAD or ALIVE  
  * <TileState[int][int]>    Next state map of all tiles in the game, whose state can be either DEAD or ALIVE
@@ -50,7 +39,6 @@ typedef struct GameState {
     int generation; 
     TileState curr_map[Y_SIZE][X_SIZE];
     TileState next_map[Y_SIZE][X_SIZE];
-    Cell *cells; 
 } GameState; 
 
 // ***************************************************************************
@@ -75,15 +63,13 @@ extern bool read_coordinate(int *, int *, char *);
 
 /**
  * This function updates the game according to the predefined rules (Conway's game of life in our case)
- * <GameState>              Global game state 
  */
-extern void update_state(GameState); 
+extern void update_state(); 
 
 /**
  * This function prints the game according to its current state 
- * <GameState>              Global game state
  */
-extern void print_state(GameState);
+extern void print_state();
 
 // <=========================================================================>
 // Internals of main module

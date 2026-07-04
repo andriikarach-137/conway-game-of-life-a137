@@ -44,11 +44,15 @@ int main(int argc, char **argv) {
 			exit(EXIT_FAILURE); 
 		}
 
-		Pair new = {.x = x, .y = y}; 
-		initial_alive_cells[i] = new; 
+		// Update current state array in game state structure 
+		game_state.curr_map[y][x] = ALIVE; 
 	} 
 
-	// Gamestate is defined globally, so everything is already initialised
+	// Print the game state 
+	print_state();
+	
+	// Update the game state 
+	update_state(); 
 }
 
 // ***************************************************************************
