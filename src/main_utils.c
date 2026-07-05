@@ -22,6 +22,28 @@ char consume_char(char **str_ptr) {
     return c; 
 }
 
+int alive_neighbours(Pair pair) {
+    int alive_count = 0; 
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            int x = MOD(pair.x - 1 + j, dim); 
+            int y = MOD(pair.y - 1 + i, dim); 
+
+            if (x == pair.x && y == pair.y) {
+                continue;
+            }
+
+            int index = y * dim + x;
+
+            if (game_state.curr_map[index] == ALIVE) {
+                alive_count++; 
+            }
+        }
+    }
+
+    return alive_count; 
+}
+
 // ***************************************************************************
 // Implementations of the public functions of main module
 
@@ -54,12 +76,12 @@ bool read_coordinate(int *x, int *y, char *str) {
 }
 
 void update_state() {
+    game_state.generation++; 
     for (int i = 0; i < dim; i++) {
-        for (int j = 0; i < dim; j++) {
+        for (int j = 0; j < dim; j++) {
             Pair new = {.x = j, .y = i}; 
             int n = alive_neighbours(new); 
             int index = i * dim + j; 
-
             if (n < 2) {
                 game_state.next_map[index] = DEAD; 
             } else if ((n == 2 || n == 3) && game_state.curr_map[index] == ALIVE) {
@@ -68,10 +90,14 @@ void update_state() {
                 game_state.next_map[index] = DEAD; 
             } else if (n == 3 && game_state.curr_map[index] == DEAD) {
                 game_state.next_map[index] = ALIVE; 
+            } else {
+                game_state.next_map[index] = DEAD; 
             }
         }
     }
-    game_state.curr_map = game_state.next_map; 
+    TileState *temp = game_state.curr_map; 
+    game_state.curr_map = game_state.next_map;
+    game_state.next_map = temp; 
 }
 
 void print_state() {

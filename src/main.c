@@ -53,14 +53,17 @@ int main(int argc, char **argv) {
 		game_state.curr_map[y * dim + x] = ALIVE; 
 	} 
 
-	// Print the game state 
-	print_state();
+	// Simulate Game Of Life
+	while (1) {
+		// Print the game state 
+		print_state();
 
-	// Delay
-	delay();
+		// Delay
+		delay();
 
-	// Update the game state 
-	update_state(); 
+		// Update the game state  
+		update_state(); 
+	}
 }
 
 // ***************************************************************************

@@ -10,6 +10,8 @@
 #define MIN_DIM 4 
 #define MAX_DIM 32 
 
+#define MOD(a, b) (a % b + b) % b 
+
 // ***************************************************************************
 // Structures and Types
 
